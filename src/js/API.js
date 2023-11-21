@@ -5,6 +5,7 @@ export default class ImgAPIService {
   constructor() {
     this.searchQuery = '';
     this.page = 1;
+    this.totalHits = 0;
 
     this.axios = axiosCl.create({
       baseURL: 'https://pixabay.com/api/',
@@ -28,6 +29,14 @@ export default class ImgAPIService {
     Notify.failure(
       'Sorry, there are no images matching your search query. Please try again.'
     );
+  }
+
+  horayNotification() {
+    Notify.success(`Hooray! We found ${this.totalHits} images.`);
+  }
+
+  numberOfTotalHits() {
+    this.totalHits += this.per_page;
   }
 
   incrementPage() {

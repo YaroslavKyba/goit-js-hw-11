@@ -6,7 +6,6 @@ const searchQuery = document.querySelector('#search-form');
 const gallery = document.querySelector('.gallery');
 
 const loadMoreBtn = new LoadMoreBtnCl({ selector: '.load-more', hidden: true });
-console.log(loadMoreBtn);
 const newApiService = new ImgAPIService();
 
 searchQuery.addEventListener('submit', onSubmit);
@@ -22,10 +21,10 @@ function onSubmit(ev) {
   loadImages();
 }
 
-function loadImages() {
+async function loadImages() {
   loadMoreBtn.hide();
 
-  newApiService
+  await newApiService
     .fetchImage()
     .then(imgData => {
       loadMoreBtn.show();
@@ -35,3 +34,9 @@ function loadImages() {
     })
     .catch(_ => newApiService.errorNotification());
 }
+
+// if (imgData.data.hits >= imgData.data.totalHits) {
+//   console.log(
+//     "We're sorry, but you've reached the end of search results."
+//   )
+// }
