@@ -1,33 +1,37 @@
 import ImgAPIService from './API';
-import { createMarkup } from './markup';
+import LoadMoreBtnCl from './loadmoreBtn';
+import { createMarkup, clearGallery } from './markup';
 
 const searchQuery = document.querySelector('#search-form');
 const gallery = document.querySelector('.gallery');
-const loadMoreBtn = document.querySelector('.load-more');
 
+const loadMoreBtn = new LoadMoreBtnCl({ selector: '.load-more', hidden: true });
+console.log(loadMoreBtn);
 const newApiService = new ImgAPIService();
 
 searchQuery.addEventListener('submit', onSubmit);
-loadMoreBtn.addEventListener('click', onLoadMore);
+loadMoreBtn.button.addEventListener('click', loadImages);
 
 function onSubmit(ev) {
   ev.preventDefault();
 
   newApiService.query = ev.currentTarget.searchQuery.value;
+  newApiService.resetPage();
+  clearGallery(gallery);
 
-  newApiService.fetchImage();
-  // .then(imgData => {
-  //   createMarkup(imgData.data.hits, gallery);
-  // })
-  // .catch(_ => newApiService.errorNotification());
-
-  //   ev.currentTarget.reset();
+  loadImages();
 }
 
-function onLoadMore() {
-  newApiService.fetchImage();
-  // .then(imgData => {
-  //   createMarkup(imgData.data.hits, gallery);
-  // })
-  // .catch(_ => errorNotification());
+function loadImages() {
+  loadMoreBtn.hide();
+
+  newApiService
+    .fetchImage()
+    .then(imgData => {
+      loadMoreBtn.show();
+
+      newApiService.incrementPage();
+      createMarkup(imgData.data.hits, gallery);
+    })
+    .catch(_ => newApiService.errorNotification());
 }

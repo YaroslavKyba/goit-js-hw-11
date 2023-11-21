@@ -13,28 +13,29 @@ export default class ImgAPIService {
         image_type: 'photo',
         orientation: 'horizontal',
         safesearch: true,
-        page: this.page,
         per_page: 40,
       },
     });
   }
 
   fetchImage() {
-    return this.axios
-      .get('', {
-        params: { q: this.searchQuery },
-      })
-      .then(imgData => {
-        this.page += 1;
-        // createMarkup(imgData.data.hits, gallery);
-      })
-      .catch(_ => newApiService.errorNotification());
+    return this.axios.get('', {
+      params: { q: this.searchQuery, page: this.page },
+    });
   }
 
   errorNotification() {
     Notify.failure(
       'Sorry, there are no images matching your search query. Please try again.'
     );
+  }
+
+  incrementPage() {
+    this.page += 1;
+  }
+
+  resetPage() {
+    this.page = 1;
   }
 
   get query() {

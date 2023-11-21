@@ -32,3 +32,7 @@ export function createMarkup(data, gallery) {
     })
     .join('');
 }
+
+export function clearGallery(gallery) {
+  gallery.innerHTML = '';
+}
