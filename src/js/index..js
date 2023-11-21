@@ -35,8 +35,6 @@ async function loadImages() {
     .catch(_ => newApiService.errorNotification());
 }
 
-// if (imgData.data.hits >= imgData.data.totalHits) {
-//   console.log(
-//     "We're sorry, but you've reached the end of search results."
-//   )
+// if (imgData.data.hits.length >= imgData.data.totalHits) {
+//   newApiService.endSearchResultNotification();
 // }

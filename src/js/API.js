@@ -31,6 +31,12 @@ export default class ImgAPIService {
     );
   }
 
+  endSearchResultNotification() {
+    Notify.failure(
+      "We're sorry, but you've reached the end of search results."
+    );
+  }
+
   horayNotification() {
     Notify.success(`Hooray! We found ${this.totalHits} images.`);
   }
